@@ -1,0 +1,52 @@
+#include<iostream>
+using namespace std;
+
+int min_val, max_val;
+
+void mm(int arr[], int start, int end)
+{
+    if (start < end)
+    {
+        int mid = (start + end) / 2;
+
+        mm(arr, start, mid);
+        mm(arr, mid + 1, end);
+
+        // Update max and min after recursive calls
+        if (arr[mid] > max_val)
+            max_val = arr[mid];
+
+        if (arr[mid + 1] > max_val) // Compare with the right child of the midpoint
+            max_val = arr[mid + 1];
+
+        if (arr[mid] < min_val)
+            min_val = arr[mid];
+
+        if (arr[mid + 1] < min_val) // Compare with the right child of the midpoint
+            min_val = arr[mid + 1];
+    }
+}
+
+int main()
+{
+    int size;
+    cout << "Enter size of array: ";
+    cin >> size;
+
+    int arr[size];
+    cout << "Enter elements of the array: ";
+    for (int i = 0; i < size; i++)
+    {
+        cin >> arr[i];
+    }
+
+    min_val = arr[0];
+    max_val = arr[0];
+
+    mm(arr, 0, size - 1);
+
+    cout << "Minimum element is: " << min_val << endl;
+    cout << "Maximum element is: " << max_val << endl;
+
+    return 0;
+}
