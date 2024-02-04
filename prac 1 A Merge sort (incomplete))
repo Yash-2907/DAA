@@ -1,69 +1,70 @@
-//practical 1 :- A) MERGE SORT B) QUICK SORT
-#include<iostream>
+//merge sort
 #include<bits/stdc++.h>
 using namespace std;
-void mergesort(int str,int en,int arr[])
+vector<int> merge(vector<int>v1,vector<int> v2)
 {
-    cout<<"start="<<str<<" end="<<en<<endl;
-    int mid=(str+en)/2;
-    if(str!=en)
-    {
-    mergesort(str,mid,arr);
-    mergesort(mid+1,en,arr);
-    }
-    int temp[en-str+1];
-    int current=0,j=str,k=mid+1;
-    for(int i=0;i<en-str+1;i++)
-    {
-        if((j<=mid)&&(k<=en))
-        {
-          if(arr[j]>arr[k])
-          {
-             temp[current]=arr[j];
-             j++;
-             current++;
-          }
-          else
-          {
-             temp[current]=arr[k];
-             k++;
-             current++;
-          }
-        }
-        else if(j>=mid)
-        {
-            temp[current]=arr[k];
-            k++;
-            current++;
-        }
-        else if(k>=en){
-            temp[current]=arr[j];
-            j++;
-            current++;
-        }
-    }
-    for(int i=0;i<en-str+1;i++)
-    {
-        cout<<"TESTING :- "<<temp[i]<<"\n";
-        arr[i]=temp[i];
-    }
-    cout<<endl;
+   int i=0,j=0;
+   vector<int>ans;
+   while((i<v1.size())&&(j<v2.size()))
+   {
+     if(v1[i]<v2[j])
+     {
+       ans.push_back(v1[i]);
+       i++;
+     }
+     else{
+      ans.push_back(v2[j]);
+      j++;
+     }
+   }
+   if(j==v2.size())
+   {
+     while(i<v1.size())
+     {
+      ans.push_back(v1[i]);
+      i++;
+     }
+   }
+   else{
+      while(j<v2.size())
+      {
+        ans.push_back(v2[j]);
+        j++;
+      }
+   }
+   return ans;
+}
+vector<int> msort(vector<int>v,int start,int end)
+{
+   if(start<end)
+   {
+      int mid=(start+end)/2;
+      vector<int>v1=msort(v,start,mid);
+      vector<int>v2=msort(v,mid+1,end);
+      return merge(v1,v2);
+   }
+   else{
+      return {v[start]};
+   }
 }
 int main()
 {
-    int size;
-    cout<<"enter size of array :- ";
-    cin>>size;
-    int arr[size];
-    cout<<"ENTER ELEMENTS OF THE ARRAY :- ";
-    for(int i=0;i<size;i++){
-        cin>>arr[i];
-    }
-    mergesort(0,size-1,arr);
-    cout<<"SORTED ARRAY IS :- ";
-    for(int i=0;i<size;i++)
-    {
-        cout<<arr[i]<<" ";
-    }
-    return 0;
+  int size;
+  cout<<"ENTER SIZE OF ARRAY :- ";
+  cin>>size;
+  vector<int>v(size);
+  srand(time(0));
+  generate(v.begin(),v.end(),rand);
+  cout<<"RANDOMLY GENERATE ARRAY IS :- ";
+  for(int i=0;i<v.size();i++)
+  {
+    cout<<v[i]<<" ";
+  }
+  v=msort(v,0,v.size()-1);
+  cout<<"\nSORTED ARRAY IS :- ";
+  for(int i=0;i<v.size();i++)
+  {
+    cout<<v[i]<<" ";
+  }
+  return 0;
 }
