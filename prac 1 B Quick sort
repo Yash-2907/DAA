@@ -1,0 +1,48 @@
+//quick sort
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+void qsort(vector<int>& v, int start, int end)
+{
+   if (start < end)
+   {
+      int pivot = v[end];
+      int i = start - 1;
+
+
+      for (int j = start; j <= end - 1; j++)
+      {
+         if (v[j] < pivot)
+         {
+            i++;
+            swap(v[i], v[j]);
+         }
+      }
+
+
+      swap(v[i + 1], v[end]);
+      qsort(v, start, i);
+      qsort(v, i + 2, end);
+   }
+}
+int main()
+{
+    int size;
+    cout<<"ENTER THE SIZE :- ";
+    cin>>size;
+    vector<int> v(size);
+    srand(time(0));
+    generate(v.begin(),v.end(),rand);
+    cout<<"RANDOM GENERATED ARRAY IS :- ";
+    for(int i=0;i<v.size();i++)
+    {
+        cout<<v[i]<<" ";
+    }
+    qsort(v,0,v.size()-1);
+    cout<<"\nSORTED ARRAY IS :- ";
+    for(int i=0;i<v.size();i++)
+    {
+        cout<<v[i]<<" ";
+    }
+    return 0;
+}
