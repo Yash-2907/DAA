@@ -1,0 +1,66 @@
+//  LCS AND PALINDROMIC LCS
+#include <iostream>
+#include <bits/stdc++.h>
+#include <string>
+using namespace std;
+int main()
+{
+    int temp;
+    string s1, s2;
+    cout << "ENTER 1 FOR NORMAL LCS , ANYTHING ELSE FOR PALINDROMIC LCS :-";
+    cin >> temp;
+    if (temp != 1)
+    {
+        cout << "ENTER THE WORD TO CHECK :- ";
+        cin >> s1;
+        s2 = s1;
+        reverse(s2.begin(), s2.end());
+    }
+    else
+    {
+        cout << "ENTER THE TWO STRING IN CORRECT SEQUENCE :- \n";
+        cin >> s1 >> s2;
+    }
+    int arr[s2.size() + 1][s1.size() + 1];
+    for (int i = 0; i <= s1.size(); i++)
+    {
+        arr[0][i] = 0;
+    }
+    for (int i = 0; i <= s2.size(); i++)
+    {
+        arr[i][0] = 0;
+    }
+    for (int i = 1; i <= s2.size(); i++)
+    {
+        for (int j = 1; j <= s1.size(); j++)
+        {
+            if (s2[i - 1] == s1[j - 1])
+            {
+                arr[i][j] = arr[i - 1][j - 1] + 1;
+            }
+            else
+            {
+                arr[i][j] = max(arr[i - 1][j], arr[i][j - 1]);
+            }
+        }
+    }
+    cout << "LENGTH OF LONGEST SUBSEQUENCE IS :- " << arr[s2.size()][s1.size()] << endl;
+    int i = s2.size(), j = s1.size();
+    string ans = "";
+    while ((i > 0) && (j > 0))
+    {
+        if (arr[i][j] == arr[i][j - 1])
+        {
+            j--;
+        }
+        else
+        {
+            ans = ans + s1[j - 1];
+            i--;
+            j--;
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    cout << "WORD IS :- " << ans;
+    return 0;
+}
