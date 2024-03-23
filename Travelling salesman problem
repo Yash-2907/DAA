@@ -1,0 +1,70 @@
+// TO IMPLEMENT TSP USING DP FOR A COURIER COMPANY FOR DELIVERING PACKAGE
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+int mincost = 0;
+vector<int> minpath;
+void tsp(vector<vector<int>> v, vector<int> path, set<int> s, int start, int cost, int size)
+{
+    if (s.size() == size)
+    {
+        path.push_back(0);
+        cost = cost + v[start][0];
+        if (mincost >= cost || mincost == 0)
+        {
+            mincost = cost;
+            minpath = path;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if (!s.count(i) && (start != i))
+            {
+                vector<int>temppath=path;
+                set<int>temps=s;
+                temppath.push_back(i);
+                temps.insert(i);
+                int tempcost = cost + v[start][i];
+                tsp(v, temppath, temps, i, tempcost, size);
+            }
+        }
+    }
+}
+int main()
+{
+    int num, temp;
+    vector<vector<int>> v;
+    cout << "ENTER NUMBER OF LOCATIONS :- ";
+    cin >> num;
+    cout << "ENTER THE VALUES OF ADJACENCY MATRIX :- \n";
+    for (int i = 0; i < num; i++)
+    {
+        vector<int> row;
+        for (int j = 0; j < num; j++)
+        {
+            cout << i << " ----> " << j << " :- ";
+            cin >> temp;
+            row.push_back(temp);
+        }
+        v.push_back(row);
+    }
+    cout << "ENTERED MATRIX IS :- \n";
+    for (auto it : v)
+    {
+        for (auto i : it)
+        {
+            cout << i << " ";
+        }
+        cout << "\n";
+    }
+    tsp(v, {0}, {0}, 0, 0, num);
+    cout << "\n\nMINIMUM COST IS :- " << mincost;
+    cout << "\nMINIMUM PATH IS :- ";
+    for (auto it : minpath)
+    {
+        cout << it << " ";
+    }
+    return 0;
+}
