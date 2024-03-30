@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 vector<vector<int>> ans;
-vector<int> hc(vector<vector<int>> v, vector<int> path, set<int> s, int start, int end, int size)
+void hc(vector<vector<int>> v, vector<int> path, set<int> s, int start, int end, int size)
 {
     if (s.size()==size)
     {
